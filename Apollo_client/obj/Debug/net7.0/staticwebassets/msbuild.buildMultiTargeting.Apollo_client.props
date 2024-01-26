@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Apollo_client.props" />
+</Project>

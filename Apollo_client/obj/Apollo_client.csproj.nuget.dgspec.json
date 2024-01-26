@@ -1,0 +1,88 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\30765\\Desktop\\Apollo_Ocelot_Project\\Apollo_Ocelot_Project\\Apollo_client\\Apollo_client.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\30765\\Desktop\\Apollo_Ocelot_Project\\Apollo_Ocelot_Project\\Apollo_client\\Apollo_client.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\30765\\Desktop\\Apollo_Ocelot_Project\\Apollo_Ocelot_Project\\Apollo_client\\Apollo_client.csproj",
+        "projectName": "Apollo_client",
+        "projectPath": "C:\\Users\\30765\\Desktop\\Apollo_Ocelot_Project\\Apollo_Ocelot_Project\\Apollo_client\\Apollo_client.csproj",
+        "packagesPath": "C:\\Users\\30765\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\30765\\Desktop\\Apollo_Ocelot_Project\\Apollo_Ocelot_Project\\Apollo_client\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\30765\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Com.Ctrip.Framework.Apollo": {
+              "target": "Package",
+              "version": "[2.10.0, )"
+            },
+            "Com.Ctrip.Framework.Apollo.Configuration": {
+              "target": "Package",
+              "version": "[2.10.2, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Ocelot": {
+              "target": "Package",
+              "version": "[22.0.1, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
