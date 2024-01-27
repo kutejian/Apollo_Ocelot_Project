@@ -1,0 +1,447 @@
+////*****************************单地址********************************http://localhost:5135/t5030/users/all
+////ReRoutes--以前叫ReRoutes
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "192.168.0.114",
+//          "Port": 5031 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5030/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    }
+//  ]
+//}
+
+////*****************************单地址全匹配********************************
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5030 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/{url}", //网关地址--url变量   //冲突的还可以加权重Priority--最低为0
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    }
+//  ]
+//}
+
+////*****************************多地址多实例********************************
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5030 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5030/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5031 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5031/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5032 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5032/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    }
+//  ]
+//}
+
+//////MVC的路由规则是近水楼台先得月--
+////*****************************路由冲突+带权匹配********************************http://localhost:5135/t5030/users/all
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5030 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/{url}", //网关地址--url变量   //冲突的还可以加权重Priority
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "Priority": 0 //通配路由的默认优先级是0---测试是修改无效
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5030 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5030/{url}", //网关地址--url变量   //冲突的还可以加权重Priority
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "Priority": 1 //默认是0 加个1
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5031 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5031/{url}", //网关地址--url变量   //冲突的还可以加权重Priority
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "Priority": 0 //默认是0 加个1
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5032 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5032/{url}", //网关地址--url变量   //冲突的还可以加权重Priority
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "Priority": 1 //默认是0 加个1
+//    }, //http://localhost:5289/T5032/users/all
+//    {
+//      "DownstreamPathTemplate": "/api/users/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5031 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5032/users/{url}", //网关地址--url变量   //冲突的还可以加权重Priority
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "Priority": 2 //默认是0 加个1
+//    }
+//  ]
+//}
+
+////*****************************单地址多实例负载均衡********************************dotnet run --urls=http://localhost:5031
+////http://localhost:5135/T/users/all
+//{
+//  "Routes": [
+//    {
+//      "UpstreamPathTemplate": "/T/{url}", //网关地址--url变量   //冲突的还可以加权重Priority
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5030
+//        },
+//        {
+//          "Host": "localhost",
+//          "Port": 5031
+//        },
+//        {
+//          "Host": "localhost",
+//          "Port": 5032
+//        }
+//      ],
+//      //"LoadBalancerOptions": {
+//      //  "Type": "RoundRobin" //"RoundRobin" //轮询 //"LeastConnection" //最少连接数的服务器  "NoLoadBalance" //不负载均衡  // "CookieStickySessions" //会话粘滞  //
+//      //}
+//      //"LoadBalancerOptions": {
+//      //  "Type": "CookieStickySessions",
+//      //  "Key": "ASP.NET_SessionId",
+//      //  "Expiry": 1800000
+//      //}
+//      "LoadBalancerOptions": {
+//        "Type": "CustomPollingLoadBalancer"
+//      }
+//    }
+//  ]
+//}
+
+////*****************************单地址多实例负载均衡+Consul********************************http://192.168.0.114:5135/T/users/all
+//{
+//  "Routes": [
+//    {
+//      "UpstreamPathTemplate": "/T/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "UseServiceDiscovery": true,
+//      "ServiceName": "UserMinimalAPIService", //consul服务名称
+//      "LoadBalancerOptions": {
+//        "Type": "CustomPollingLoadBalancer" //"CustomPollingLoadBalancer" //"RoundRobin" //轮询      LeastConnection-最少连接数的服务器   NoLoadBalance不负载均衡
+//      }
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    //"BaseUrl": "http://localhost:5135", //网关对外地址
+//    "BaseUrl": "http://192.168.0.114:5135", //网关对外地址
+//    //"ServiceDiscoveryProvider": {
+//    //  "Scheme": "http",
+//    //  //"Host": "localhost",
+//    //  "Host": "192.168.0.114",
+//    //  "Port": 15500, //Consul集群的统一入口
+//    //  "Type": "Consul" //由Consul提供服务发现, 每次请求去consul
+//    //}
+//    "ServiceDiscoveryProvider": {
+//      "Host": "192.168.0.114",
+//      "Port": 15500,
+//      "Type": "PollConsul", //由Consul提供服务发现,定期访问
+//      "PollingInterval": 1000 //定期放consul,频率毫秒，缓存起来用--down掉是不知道的
+//      //"Token": "footoken"//需要ACL的话
+//    }
+//  }
+//}
+
+//*****************************Consul+缓存Cache********************************
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "UpstreamPathTemplate": "/T/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "UseServiceDiscovery": true,
+//      "ServiceName": "UserMinimalAPIService", //consul服务名称
+//      "LoadBalancerOptions": {
+//        "Type": "CustomPollingLoadBalancer" //轮询      LeastConnection-最少连接数的服务器   NoLoadBalance不负载均衡
+//      },
+//      "FileCacheOptions": {
+//        "TtlSeconds": 3, //Second
+//        "Region": "UserCache" //可以调用Api缓存清理
+//      }
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "http://192.168.0.114:5135", //网关对外地址
+//    "ServiceDiscoveryProvider": {
+//      "Host": "192.168.0.114",
+//      "Port": 15500,
+//      "Type": "Consul" //由Consul提供服务发现, 每次请求去consul
+//    },
+//    //"ServiceDiscoveryProvider": {
+//    //"Host": "192.168.0.114",
+//    //"Port": 15500
+//    //  "Type": "PollConsul", //由Consul提供服务发现,
+//    //  "PollingInterval": 1000 //轮询consul,频率毫秒--down掉是不知道的
+//    //  //"Token": "footoken"//需要ACL的话
+//    //}
+//  }
+//}
+
+////*****************************超时+限流+熔断+降级+Consul+Polly********************************
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "UpstreamPathTemplate": "/T/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "UseServiceDiscovery": true,
+//      "ServiceName": "UserMinimalAPIService", //consul服务名称
+//      "LoadBalancerOptions": {
+//        "Type": "RoundRobin" //轮询      LeastConnection-最少连接数的服务器   NoLoadBalance不负载均衡
+//      },
+//      "RateLimitOptions": {
+//        "ClientWhitelist": [ "steven", "wang" ], //白名单 ClientId 区分大小写   、限流
+//        "EnableRateLimiting": true,
+//        "Period": "5m", //1s, 5m, 1h, 1d
+//        "PeriodTimespan": 30, //多少秒之后客户端可以重试
+//        "Limit": 5 //统计时间段内允许的最大请求数量
+//      },
+//      "AuthenticationOptions": {
+//        "AuthenticationProviderKey": "UserGatewayKey",
+//        "AllowedScopes": [ "UserWebAPIService", "UserMinimalAPIService" ]
+//      },
+//      "RouteClaimsRequirement": {
+//        "Role": "Assistant"
+//      },
+//      "QoSOptions": {
+//        "ExceptionsAllowedBeforeBreaking": 3, //允许多少个异常请求
+//        "DurationOfBreak": 10000, // 熔断的时间，单位为ms
+//        "TimeoutValue": 2000 //单位ms 如果下游请求的处理时间超过多少则自如将请求设置为超时 默认90秒
+//      },
+//      "FileCacheOptions": {
+//        "TtlSeconds": 15,
+//        "Region": "UserCache" //可以调用Api清理
+//      }
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "http://192.168.0.114:5135", //网关对外地址
+//    "ServiceDiscoveryProvider": {
+//      "Host": "192.168.0.114",
+//      "Port": 8500,
+//      "Type": "Consul" //由Consul提供服务发现
+//    },
+//    "RateLimitOptions": {
+//      "QuotaExceededMessage": "Too many requests, maybe later? 11", // 当请求过载被截断时返回的消息
+//      "HttpStatusCode": 777 // 当请求过载被截断时返回的http status
+//      //"ClientIdHeader": "client_id" // 用来识别客户端的请求头，默认是 ClientId
+//    }
+//  }
+//}
+
+////*****************************请求聚合Aggregator********************************
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/users/all",
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "192.168.43.170",
+//          "Port": 5030 //服务端口
+//        } //可以多个，自行负载均衡
+//      ],
+//      "UpstreamPathTemplate": "/T5030/users/all",
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "key": "T5030"
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/users/all",
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "192.168.43.170",
+//          "Port": 5031 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5031/users/all",
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "key": "T5031"
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/users/all",
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "192.168.43.170",
+//          "Port": 5032 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5032/users/all",
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "key": "T5032"
+//    }
+//  ],
+//  "Aggregates": [
+//    {
+//      "RouteKeys": [
+//        "T5030",
+//        "T5031",
+//        "T5032"
+//      ],
+//      "UpstreamPathTemplate": "/UserAggregator", //如果某个404 是不影响返回，当成null
+//      "Aggregator": "CustomUserAggregator" //自定义聚合器
+//    }
+//  ]
+//}
+
+
+
+////*****************************单地址+Header和跨域********************************
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+//      "DownstreamScheme": "http",
+//      "DownstreamHeaderTransform": {
+//        "StevenDownStream": "Hello Everyone",
+//        "StevenDownStream1": "Hello Everyone1",
+//        //"Access-Control-Allow-Origin": "http://192.168.43.170:5030", //不存在就添加
+//        //"Access-Control-Allow-Methods": "*",
+//        //"Access-Control-Allow-Headers": "*"
+//        "CustomDownstreamHeaderReplace": "down.old,down.new"
+//      },
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "192.168.43.170",
+//          "Port": 5030 //服务端口
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/T5030/{url}", //网关地址--url变量
+//      "UpstreamHttpMethod": [ "Get", "Post", "Put", "PATCH", "Delete", "Options" ],
+//      "UpstreamHeaderTransform": {
+//        "CustomUpstreamHeader": "===========this is steven===========",
+//        "X-Forwarded-For": "{RemoteIpAddress}",
+//        "CustomUpstreamHeaderReplace": "this is CustomUpstreamHeaderReplace",
+//        //"customdownstreamheaderreplace": "up.old,up.new",
+//        "Test": "Steven Wrirte Test Header"
+//      }
+//    }
+//  ]
+//}
+
+
+
+//*****************************服务器配置swagger********************************http://192.168.43.170:5135/swagger/index.html
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.43.170",
+          "Port": 5030 //服务端口
+        }
+      ],
+      "UpstreamPathTemplate": "/T5030/{url}", //网关地址--url变量
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    },
+    {
+      "UpstreamPathTemplate": "/webapi/swagger/v1/swagger.json",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.43.170",
+          "Port": 5030 //服务端口
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+      "DownstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/webapiV2/swagger/v2/swagger.json",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.43.170",
+          "Port": 5030 //服务端口
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+      "DownstreamScheme": "http"
+    }
+  ]
+}
